@@ -1336,5 +1336,10 @@ a.special-button-alternate:hover {
 a.lesson-link.special-button-alternate {
     display: inline-block;
     float: right;
-    padding: 5px;
-}    
+    margin: 5px;
+} 
+
+#lesson-notes-current {
+    float: none;
+    margin-left: 50px;
+}

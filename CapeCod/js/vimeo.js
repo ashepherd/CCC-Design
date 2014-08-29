@@ -1,3 +1,7 @@
+/*
+Vimeo Simple API - https://developer.vimeo.com/apis/simple
+*/
+
 var playerURL = "//player.vimeo.com/video/";
 var video_player_id = "video-player-iframe";
 var video_player_title = "video-player-title";
@@ -89,9 +93,9 @@ function loadSeries( seriesId, startVideoId ){
           var teaser = numViews + viewsWord;
           
           if( !$.isNumeric(startVideoId) && count == 1 ){
-              setupVideoPlayer(videoId, title, description);
+              setupVideoPlayer(seriesId, videoId, title, description);
           } else if( $.isNumeric(startVideoId) && videoId == startVideoId ){
-              setupVideoPlayer(videoId, title, description);
+              setupVideoPlayer(seriesId, videoId, title, description);
           }
 
           var title_link_id = "lesson-title-link-" + videoId;
@@ -103,7 +107,7 @@ function loadSeries( seriesId, startVideoId ){
                   $( "<div/>", { "id": title_div_id, "class": "lesson-title" }).append(
                       $( "<a/>", { "href": "#watch-" + seriesId + "-" + videoId, "class": "lesson-link special-button", html: title })
                           .click( function(){
-                               changeVideo($(this).closest("li").attr("id"));
+                               changeVideo( seriesId, $(this).closest("li").attr("id"));
                           })
                   )
               ).append(
@@ -119,8 +123,14 @@ function loadSeries( seriesId, startVideoId ){
     });
 }
 
-function setupVideoPlayer( videoId, title, description ){
+function setupVideoPlayer(seriesId, videoId, title, description ){
   var container_div = "#" + video_player_container;
+  $ ("<a/>", { 
+      "href": "#notes-" + seriesId +"-" + videoId, 
+      "id": "lesson-notes-current", 
+      "class": "lesson-link special-button-alternate", 
+      html: "Discussion Notes" }
+  ).prependTo(container_div);
   $("<div/>", { "id": video_player_description, html: description }).prependTo(container_div);
   $("<br/>").prependTo(container_div);
   $( "<iframe/>",  { 
@@ -134,9 +144,10 @@ function setupVideoPlayer( videoId, title, description ){
   setPageTitle(title);
 }
 
-function changeVideo( videoId ){
+function changeVideo( seriesId, videoId ){
     var videoUrl = playerURL + videoId;
     var $iframe = $( "#" + video_player_id );
+    var $discussion = $( "#lesson-notes-current" ); 
     if ( $iframe.length ) {
       $iframe.attr("src", videoUrl );
       var video = "http://vimeo.com/api/v2/video/" + videoId +".json";
@@ -152,6 +163,9 @@ function changeVideo( videoId ){
           var $desc = $( "#" + video_player_description );
           if( $desc.length ){
               $desc.html(desc);   
+          }
+          if( $discussion.length ){
+              $discussion.attr('href', "#notes-" + seriesId +"-" + videoId );
           }
       });
       
