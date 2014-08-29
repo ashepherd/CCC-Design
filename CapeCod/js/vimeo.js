@@ -54,6 +54,10 @@ function loadSeries( seriesId, startVideoId ){
         
       $('#video-content').empty();
       $("<div/>", { "id": video_player_container }).prependTo('#video-content');
+      $( "<h1/>", {
+          "id": "lesson-other-heading",
+          html: "Other Lessons"
+      }).appendTo( container_div );
       $( "<ul/>", {
           "id": "lesson-list",
         "class": "lesson-list"
@@ -70,7 +74,7 @@ function loadSeries( seriesId, startVideoId ){
           var duration = val.duration;
           var height = val.height;
           var videoId = val.id;
-          var numOfPlays = val.stats_number_of_plays;
+          var numViews = val.stats_number_of_plays;
           var tags = val.tags;
           var title = val.title;
           var width = val.width;
@@ -78,7 +82,11 @@ function loadSeries( seriesId, startVideoId ){
           
           var description = desc;
           var videoUrl = playerURL + videoId;
-          
+          var viewsWord = " views";
+          if( parseInt(numViews) == 1 ){
+              viewsWord = " view";
+          }
+          var teaser = numViews + viewsWord;
           
           if( !$.isNumeric(startVideoId) && count == 1 ){
               setupVideoPlayer(videoId, title, description);
@@ -99,9 +107,15 @@ function loadSeries( seriesId, startVideoId ){
                           })
                   )
               ).append(
-                  $ ("<span/>", { "class": "lesson-date", html: formatDate(uploadDate) } )
+                  $ ("<a/>", { "href": "#notes-" + seriesId +"-" + videoId, "class": "lesson-link special-button-alternate", html: "Discussion Notes" })
+              ).append(
+                  $ ("<span/>", { "class": "lesson-teaser", html: teaser } )
               );
       });
+        
+      $( 'body,html' ).animate({ 
+        scrollTop: 0
+      }, 0);
     });
 }
 
@@ -197,7 +211,19 @@ function loadAllSeries(){
                   $( "<div/>", {"class": "series-description", html: "<em>" + formatDate(updated) + "</em>" })
               );
       });
-    });   
+    });  
+    
+    // show CCC Vimeo stats;
+    $vimeo_stats = $( "#vimeo-stats" );
+    if( $vimeo_stats.length ){
+        var vimeoURL = "http://vimeo.com/api/v2/capecodchurch/info.json";
+        $.getJSON( vimeoURL, function( data ){
+            var vimeo_info = "<p id='vimeo-stats-p'>" + data.total_albums + " Message Series<br/>" 
+                + data.total_videos_uploaded + " videos<br/>"
+                + data.total_contacts + " followers</p>";
+            $( "<div/>", {"id": "vimeo-info", html: vimeo_info }).appendTo( "#vimeo-stats" );
+        });
+    }
 }
 
 function setPageTitle(title){
@@ -223,6 +249,7 @@ function formatDate(time){
         day_diff == 1 && "Yesterday" ||
         day_diff < 7 && day_diff + " days ago" ||
         day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago" ||
+        month_diff <= 1 && "1 month ago" ||
         month_diff < 12  && month_diff + " months ago" ||
         year_diff == 1 && "1 year ago" ||
         year_diff + " years ago";

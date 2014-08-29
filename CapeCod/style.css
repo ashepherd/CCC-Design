@@ -1234,6 +1234,10 @@ ul.series-list {
     overflow:hidden;
     display: block;
     margin: auto;
+    padding-top: 50px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid grey;
+    margin-bottom: 50px;
 }
 li.series {
     line-height:1.5em;
@@ -1246,6 +1250,22 @@ img.series-thumb {
     border: 1px solid #5d6264;
 }
 
+#vimeo-info {
+    font-style: italic;   
+    float: right;
+    width: 40%;
+}
+#vimeo-stats a {
+   margin-left: 70px;
+}
+#vimeo-stats-p {
+   margin-left: 0px;
+   padding-left: 0px;
+}
+#video-player-container {
+    padding-left: 10px;
+}
+
 #video-player-title {
     color: #82af43;
     font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
@@ -1254,7 +1274,18 @@ img.series-thumb {
 }
 #video-player-description {
     float: left;
-    width: 675px;
+    padding-left: 50px;
+    margin-bottom: 25px;
+    width: 575px;
+    
+}
+#lesson-other-heading {
+    clear: both;
+    display: block;
+    color: #82af43;
+    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 300;
+    padding: 20px;
 }
 ul.lesson-list {
     list-style-type: none;
@@ -1262,11 +1293,48 @@ ul.lesson-list {
     display: block;
     margin: auto;
     clear: both;
-    padding-top: 30px;
+    padding-top: 25px;
+    margin-right: 75px;
+    border-top: 1px solid grey;
 }
 li.lesson {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid grey;
 }
-span.lesson-date {
-    font-style: italic;   
+div.lesson-title {
+     width: 50%;  
+     margin-left: 0px;
+    display: inline-block;
 }
+span.lesson-teaser {
+    font-style: italic;
+    display: block;
+}
+
+
+a.special-button-alternate {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #737865;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+    color: #fff;
+    font-size: 13px;
+    text-decoration: none;
+    -webkit-transition: all ease-in-out .1s;
+    -moz-transition: all ease-in-out .1s;
+    transition: all ease-in-out .1s;
+}
+
+a.special-button-alternate:hover {
+    background: #666;
+    color: #fff;
+}
+
+a.lesson-link.special-button-alternate {
+    display: inline-block;
+    float: right;
+    padding: 5px;
+}    
