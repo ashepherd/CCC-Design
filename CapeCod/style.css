@@ -1224,6 +1224,15 @@ body.login {
 }
 
 /* Vimeo */
+div#main_1_pnlTitle {
+    display: none;
+    visibility: hidden;
+}
+div#main_1_pnlTitle.container.show {
+    display: block;
+    visibility: visible;
+}
+
 div.video-content {
     display: block;
     width: 80%;

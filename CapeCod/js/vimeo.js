@@ -11,8 +11,22 @@ jQuery.fn.reverse = [].reverse;
 
 $(document).ready(function(){
     
+    var pathname = window.location.pathname;
+    var is_previous_series = '/previous-series' == pathname;
+    if( is_previous_series ){
+        $('section.content').remove();
+    }
+    
+    //show the Text Element for hard-coded Vimeo series if the browser is in the editor
+    $vimeoHardCodedSectionParent = $('#main_1_pnlTitle').parent();
+    if( $vimeoHardCodedSectionParent.length && $vimeoHardCodedSectionParent.hasClass( "dragable" )){
+        $('#main_1_pnlTitle').addClass('show');
+    } else if( $('#main_1_pnlTitle').length ){
+        $('#main_1_pnlTitle').removeClass('show');   
+    }
+    
     //add a place to place all the video content
-    $( "<div/>", { "id": "video-content", "class": "video-content" }).prependTo('.page-feature');
+    $( "<div/>", { "id": "video-content", "class": "video-content" }).prependTo('#video-section');
     
     //setup page based on series or video hash
     //#series-<id> or #watch-<series-id>-<video-id>
@@ -44,7 +58,7 @@ $(document).ready(function(){
       }
     }
     
-    loadAllSeries();
+    loadAllSeriesOrWatch( is_previous_series );
 });
 
 
@@ -60,7 +74,7 @@ function loadSeries( seriesId, startVideoId ){
       $("<div/>", { "id": video_player_container }).prependTo('#video-content');
       $( "<h1/>", {
           "id": "lesson-other-heading",
-          html: "Other Lessons"
+          html: "Messages"
       }).appendTo( container_div );
       $( "<ul/>", {
           "id": "lesson-list",
@@ -90,7 +104,7 @@ function loadSeries( seriesId, startVideoId ){
           if( parseInt(numViews) == 1 ){
               viewsWord = " view";
           }
-          var teaser = numViews + viewsWord;
+          var teaser = ''; //numViews + viewsWord;
           
           if( !$.isNumeric(startVideoId) && count == 1 ){
               setupVideoPlayer(seriesId, videoId, title, description);
@@ -177,11 +191,37 @@ function changeVideo( seriesId, videoId ){
     }
 }
 
-function loadAllSeries(){
+function loadAllSeriesOrWatch( is_previous_series_page ){
+    
+    var series = [];
+    if( is_previous_series_page ){
+    
+        $children = $('#vimeo-albums-always-list > ul').children();
+        if( $children.length ){ 
+    
+            $.each( $children, function( key, value ){
+               $item = $( value );
+               var vimeoId = $item.text();
+               var seriesUrl = "http://vimeo.com/api/v2/album/" + vimeoId +"/info.json";
+               $.getJSON(seriesUrl, function ( data ){
+                   series.push( data );
+               });
+            });
+        }
+    }
     var albums = 'http://vimeo.com/api/v2/capecodchurch/albums.json';
     $.getJSON( albums, function( data ) {
-      var count = 0;
         
+      //if we are on the Watch page, then load the current series
+      if( !is_previous_series_page ){
+         var current = $(data).first()[0].id;
+         loadSeries( current, false);
+         return false;
+      }  
+        
+      var count = 0;
+      //add the message series that should always show
+      $.merge( data, series );
       $( "<ul/>", {
           "id": "series-list",
         "class": "series-list"
@@ -198,6 +238,10 @@ function loadAllSeries(){
           var total = val.total_videos;
           var url = val.url;
           var updated = val.last_modified;
+          
+          if( desc.length && desc.length > 0 ){
+              desc = desc + " ";   
+          }
           
           var title_link_id = "series-title-link-" + id;
           var title_div_id = "series-title-div-" + id;
@@ -217,15 +261,14 @@ function loadAllSeries(){
                   $( "<div/>", { "id": title_div_id, "class": "series-title" }).append(
                       $( "<a/>", { "href": "#series-" + id, "class": "series-link", html: title })
                           .click( function(){
-                               console.log($(this).closest("li").attr("id"));
                                loadSeries($(this).closest("li").attr("id"), false);
                           })
                   )
               ).append(
-                  $( "<div/>", {"class": "series-description", html: "<em>" + formatDate(updated) + "</em>" })
+                  $( "<div/>", {"class": "series-description", html: desc + "<em>" + formatDate(updated) + "</em>" })
               );
       });
-    });  
+    });
     
     // show CCC Vimeo stats;
     $vimeo_stats = $( "#vimeo-stats" );
