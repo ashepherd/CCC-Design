@@ -7,6 +7,7 @@ var video_player_id = "video-player-iframe";
 var video_player_title = "video-player-title";
 var video_player_description = "video-player-description";
 var video_player_container = "video-player-container";
+var discussion_url = "capecodchurch.publishpath.com";
 jQuery.fn.reverse = [].reverse;
 
 $(document).ready(function(){
@@ -83,12 +84,12 @@ function loadSeries( seriesId, startVideoId ){
         
       //to reverse the order so the oldest video is first
       //data = data.reverse();
-        
       $.each( data, function( key, val ) {
           
           count++;
-          
-          var desc = val.description.replace(/(<([^>]+)>)/ig,"");
+          var desc_arr = getDescription(val.description);
+          var discussion = desc_arr['link'];
+          var desc = desc_arr['description'];
           var duration = val.duration;
           var height = val.height;
           var videoId = val.id;
@@ -104,12 +105,26 @@ function loadSeries( seriesId, startVideoId ){
           if( parseInt(numViews) == 1 ){
               viewsWord = " view";
           }
-          var teaser = ''; //numViews + viewsWord;
+          
+          
+          
+          //setup ShareThis
+          if( 1 == count ){
+              $og_img = $('meta[property="og:image"]');
+              if( $og_img.length ){
+                  $og_img.attr('content', val.thumbnail_large );
+              } else {
+                  $('<meta/>').attr('property', 'og:image').attr('content', val.thumbnail_large).appendTo('head');   
+              }
+              $('meta[property="og:title"]')
+                  .attr('content', val.title );
+              
+          }
           
           if( !$.isNumeric(startVideoId) && count == 1 ){
-              setupVideoPlayer(seriesId, videoId, title, description);
+              setupVideoPlayer(seriesId, videoId, title, description, discussion);
           } else if( $.isNumeric(startVideoId) && videoId == startVideoId ){
-              setupVideoPlayer(seriesId, videoId, title, description);
+              setupVideoPlayer(seriesId, videoId, title, description, discussion);
           }
 
           var title_link_id = "lesson-title-link-" + videoId;
@@ -117,34 +132,53 @@ function loadSeries( seriesId, startVideoId ){
           var desc_div_id = "lesson-desc-div-" + videoId;
           var li_id = "#" + videoId;
           $( "<li/>", { "id": videoId, "class": "lesson" }).appendTo('#lesson-list')
-              .append( 
-                  $( "<div/>", { "id": title_div_id, "class": "lesson-title" }).append(
-                      $( "<a/>", { "href": "#watch-" + seriesId + "-" + videoId, "class": "lesson-link special-button", html: title })
-                          .click( function(){
-                               changeVideo( seriesId, $(this).closest("li").attr("id"));
-                          })
+              .append(
+                  $( "<div/>", {"class": "lesson-div"}).append(
+                      
+                      $( "<div/>", { "id": title_div_id, "class": "lesson-title" }).append(
+                          $( "<a/>", { "href": "#watch-" + seriesId + "-" + videoId, "class": "lesson-link special-button", html: title })
+                              .click( function(){
+                                   changeVideo( seriesId, $(this).closest("li").attr("id"));
+                              })
+                      )                      
                   )
-              ).append(
-                  $ ("<a/>", { "href": "#notes-" + seriesId +"-" + videoId, "class": "lesson-link special-button-alternate", html: "Discussion Notes" })
-              ).append(
-                  $ ("<span/>", { "class": "lesson-teaser", html: teaser } )
               );
+                  if( discussion.length ){
+                    $( '#' + videoId ).find('.lesson-div').append(
+                        $ ("<a/>", { "href": discussion, "target": "_blank", "class": "lesson-link special-button-alternate", html: "Discussion Notes" })
+                    );
+                  }
+                  //var teaser = ''; //numViews + viewsWord;
+                  /*.append(
+                      $ ("<span/>", { "class": "lesson-teaser", html: teaser } )
+                  )*/
       });
         
       $( 'body,html' ).animate({ 
         scrollTop: 0
       }, 0);
-    });
+    }).error(function() { alert("Error retrieving messages"); });
 }
 
-function setupVideoPlayer(seriesId, videoId, title, description ){
+function setupVideoPlayer(seriesId, videoId, title, description, discussion ){
   var container_div = "#" + video_player_container;
-  $ ("<a/>", { 
-      "href": "#notes-" + seriesId +"-" + videoId, 
+  if( discussion.length ){
+    $ ("<a/>", { 
+      "href": discussion, 
+      "target": "_blank",
       "id": "lesson-notes-current", 
       "class": "lesson-link special-button-alternate", 
       html: "Discussion Notes" }
-  ).prependTo(container_div);
+    ).prependTo(container_div);
+  } else {
+    $ ("<a/>", { 
+      "href": "#", 
+      "target": "_blank",
+      "id": "lesson-notes-current", 
+      "class": "lesson-link special-button-alternate hide", 
+      html: "" }
+    ).prependTo(container_div);
+  }
   $("<div/>", { "id": video_player_description, html: description }).prependTo(container_div);
   $("<br/>").prependTo(container_div);
   $( "<iframe/>",  { 
@@ -171,15 +205,29 @@ function changeVideo( seriesId, videoId ){
           var $title = $( "#" + video_player_title );
           if( $title.length ){
               $title.html(title);
+              $('meta[property="og:title"]').attr('content', title);
           }
           setPageTitle(title);
-          var desc = data[0].description.replace(/(<([^>]+)>)/ig,"");
+          
+          var desc_arr = getDescription(data[0].description);
+          var discussion = desc_arr['link'];
+          var desc = desc_arr['description'];
           var $desc = $( "#" + video_player_description );
           if( $desc.length ){
               $desc.html(desc);   
           }
-          if( $discussion.length ){
-              $discussion.attr('href', "#notes-" + seriesId +"-" + videoId );
+          if( discussion.length ){
+              $discussion.attr('href', discussion ).removeClass('hide');
+          } else {
+              $discussion.attr('href', "#" ).addClass('hide');
+          }
+          if( data[0].thumbnail_large.length ){
+              $og_img = $('meta[property="og:image"]');
+              if( $og_img.length ){
+                  $og_img.attr('content', data[0].thumbnail_large );
+              } else {
+                  $('<meta/>').attr('property', 'og:image').attr('content', data[0].thumbnail_large).appendTo('head');   
+              }
           }
       });
       
@@ -310,4 +358,23 @@ function formatDate(time){
         month_diff < 12  && month_diff + " months ago" ||
         year_diff == 1 && "1 year ago" ||
         year_diff + " years ago";
+}
+
+function getDescription( description ){
+  link = '';
+  link_idx = description.indexOf(discussion_url);
+  if( link_idx >= 0 ){
+    end_idx = description.indexOf(' ', link_idx);
+    if( end_idx >= 0 ){
+      link = description.substring(link_idx, end_idx);
+    } else {
+      link = description.substring(link_idx);
+    }
+    description = description.replace(link, '');
+    link = 'http://' + link;
+  }
+  arr = [];
+  arr['description'] = description.replace(/(<([^>]+)>)/ig,"");
+  arr['link'] = link;
+  return arr;
 }

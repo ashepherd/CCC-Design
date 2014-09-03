@@ -1311,6 +1311,10 @@ li.lesson {
     padding-bottom: 25px;
     border-bottom: 1px solid grey;
 }
+div.lesson-div {
+   display: inline-block;
+    width: 100%;
+}
 div.lesson-title {
      width: 50%;  
      margin-left: 0px;
@@ -1337,6 +1341,9 @@ a.special-button-alternate {
     transition: all ease-in-out .1s;
 }
 
+a.lesson-link.special-button {
+   margin-bottom: 5px; 
+}
 a.special-button-alternate:hover {
     background: #666;
     color: #fff;
@@ -1345,10 +1352,24 @@ a.special-button-alternate:hover {
 a.lesson-link.special-button-alternate {
     display: inline-block;
     float: right;
-    margin: 5px;
 } 
 
 #lesson-notes-current {
     float: none;
     margin-left: 50px;
+}
+
+/** Staff **/
+.staff-answer {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+.caption {
+    font-size: 13px;   
+    display: block;
+}
+
+.top-margin-10 {
+    margin-top: 10px;   
 }
