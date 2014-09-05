@@ -176,7 +176,7 @@ function setupVideoPlayer(seriesId, videoId, title, description, discussion ){
       "target": "_blank",
       "id": "lesson-notes-current", 
       "class": "lesson-link special-button-alternate hide", 
-      html: "" }
+      html: "Discussion Notes" }
     ).prependTo(container_div);
   }
   $("<div/>", { "id": video_player_description, html: description }).prependTo(container_div);
