@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><$pagetitle/$> | <$websitename/$></title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="js/vimeo.js"></script>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body class="inside video-blog">
+    <div class="header-position">
+        <div class="header-wrapper">
+            <header>
+                <div class="mobile-nav-button"> </div>
+                <$include virtual="/inc/header.inc" /$>
+            </header>
+        </div> <!-- header wrapper -->
+    </div> <!-- header position -->
+    <div class="page-wrapper">
+        <div class="background-image-wrapper">
+            <section class="background-image">
+                <$region name="backgroundImage"$><$/region$>
+            </section>
+        </div>
+        <div class="page-title">
+            <h2><$pagetitle/$></h2>
+        </div>
+        <div class="content-wrapper">
+            <section class="page-feature">
+                <$region name="intro"$><$/region$>
+                <div id="video-section"></div>
+                <$region name="main"$><$/region$>
+            </section>
+            <section class="content">
+                <div class="main-column">
+                </div>
+                <div class="sub-column">
+                    <div class="sharing element">
+                        <h4>Share This Page</h4>
+                        <span class='st_facebook_large' displayText='Facebook'></span>
+                        <span class='st_twitter_large' displayText='Tweet'></span>
+                    </div>
+                    <nav>
+                        <$globalmenu cssClass="sub-nav" showLevels="2,3,4" alwaysShowChildren="false" showHome="false"/$>
+                    </nav>
+                    <$region name="subContent"$><$/region$>
+                </div>
+            </section>
+        </div> <!-- content wrapper -->
+    </div> <!-- page wrapper -->
+    <div class="footer-wrapper">
+        <footer>
+            <$social cssClass="social" /$>
+            <$include virtual="/inc/footer.inc" /$>
+        </footer>
+    </div>
+</body>
+</html>
