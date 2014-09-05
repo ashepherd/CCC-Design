@@ -7,7 +7,7 @@ var video_player_id = "video-player-iframe";
 var video_player_title = "video-player-title";
 var video_player_description = "video-player-description";
 var video_player_container = "video-player-container";
-var discussion_url = "capecodchurch.publishpath.com";
+var discussion_url = "Discussion Notes: http://capecodchurch.com/Websites/capecodchurch/images/deep-six";
 jQuery.fn.reverse = [].reverse;
 
 $(document).ready(function(){
@@ -66,7 +66,7 @@ $(document).ready(function(){
 
 function loadSeries( seriesId, startVideoId ){
     
-    var lessons = "http://vimeo.com/api/v2/album/" + seriesId + "/videos.json";
+    var lessons = "http://vimeo.com/api/v2/album/" + seriesId + "/videos.json?time=" + Math.round(new Date().getTime() / 1000);
     $.getJSON( lessons, function( data ) {
       var count = 0;
       var container_div = "#" + video_player_container;
@@ -362,16 +362,19 @@ function formatDate(time){
 
 function getDescription( description ){
   link = '';
+  prefix_length = "Discussion Notes: ".length;
   link_idx = description.indexOf(discussion_url);
   if( link_idx >= 0 ){
-    end_idx = description.indexOf(' ', link_idx);
+    end_idx = description.indexOf(' ', link_idx + prefix_length);
     if( end_idx >= 0 ){
       link = description.substring(link_idx, end_idx);
     } else {
       link = description.substring(link_idx);
     }
     description = description.replace(link, '');
-    link = 'http://' + link;
+    link = link.substring( prefix_length );
+      console.log(link);
+      console.log(description);
   }
   arr = [];
   arr['description'] = description.replace(/(<([^>]+)>)/ig,"");
