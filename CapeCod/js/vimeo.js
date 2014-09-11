@@ -2,19 +2,28 @@
 Vimeo Simple API - https://developer.vimeo.com/apis/simple
 */
 
+var notWatchPages = [ '/previous-series', '/parenting' ];
+var seriesPage = {
+    '/parenting': 2081485  
+};
+
 var playerURL = "//player.vimeo.com/video/";
+var discussion_url = "Discussion Notes: http://capecodchurch.com/Websites/capecodchurch/images/deep-six";
+
 var video_player_id = "video-player-iframe";
 var video_player_title = "video-player-title";
 var video_player_description = "video-player-description";
 var video_player_container = "video-player-container";
-var discussion_url = "Discussion Notes: http://capecodchurch.com/Websites/capecodchurch/images/deep-six";
+
+
 jQuery.fn.reverse = [].reverse;
 
 $(document).ready(function(){
     
     var pathname = window.location.pathname;
-    var is_previous_series = '/previous-series' == pathname;
-    if( is_previous_series ){
+    var is_not_watch_page = $.inArray( pathname, notWatchPages );
+    if( is_not_watch_page ){
+        // need to document what this is
         $('section.content').remove();
     }
     
@@ -29,13 +38,19 @@ $(document).ready(function(){
     //add a place to place all the video content
     $( "<div/>", { "id": "video-content", "class": "video-content" }).prependTo('#video-section');
     
+    
+    //setup page based on path
+    if( seriesPage.hasOwnProperty(pathname) ){
+      loadSeries(seriesPage[pathname], false);
+      return;
+    }
+    
     //setup page based on series or video hash
     //#series-<id> or #watch-<series-id>-<video-id>
     var hash = window.location.hash;
     var is_series = false;
     var is_video = false;
     if( hash.length ){
-
       if( hash.substring(0, 8) == "#series-" ){
          var seriesId = hash.substring(8);
           if( $.isNumeric(seriesId) ){
@@ -58,8 +73,7 @@ $(document).ready(function(){
          }
       }
     }
-    
-    loadAllSeriesOrWatch( is_previous_series );
+    loadAllSeriesOrWatch( !is_not_watch_page );
 });
 
 
@@ -157,7 +171,10 @@ function loadSeries( seriesId, startVideoId ){
       $( 'body,html' ).animate({ 
         scrollTop: 0
       }, 0);
-    }).error(function() { alert("Error retrieving messages"); });
+    }).error(function() { 
+        alert("Error retrieving messages"); 
+        console.log(seriesId);
+    });
 }
 
 function setupVideoPlayer(seriesId, videoId, title, description, discussion ){
@@ -239,10 +256,10 @@ function changeVideo( seriesId, videoId ){
     }
 }
 
-function loadAllSeriesOrWatch( is_previous_series_page ){
+function loadAllSeriesOrWatch( is_watch_page ){
     
     var series = [];
-    if( is_previous_series_page ){
+    if( is_watch_page ){
     
         $children = $('#vimeo-albums-always-list > ul').children();
         if( $children.length ){ 
@@ -261,7 +278,7 @@ function loadAllSeriesOrWatch( is_previous_series_page ){
     $.getJSON( albums, function( data ) {
         
       //if we are on the Watch page, then load the current series
-      if( !is_previous_series_page ){
+      if( !is_watch_page ){
          var current = $(data).first()[0].id;
          loadSeries( current, false);
          return false;
