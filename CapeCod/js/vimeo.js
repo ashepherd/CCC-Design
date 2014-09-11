@@ -21,9 +21,9 @@ jQuery.fn.reverse = [].reverse;
 $(document).ready(function(){
     
     var pathname = window.location.pathname;
-    var is_not_watch_page = $.inArray( pathname, notWatchPages );
+    var is_not_watch_page = $.inArray( pathname, notWatchPages ) >= 0;
     if( is_not_watch_page ){
-        // need to document what this is
+        // remove the sub nav section
         $('section.content').remove();
     }
     
@@ -73,7 +73,7 @@ $(document).ready(function(){
          }
       }
     }
-    loadAllSeriesOrWatch( !is_not_watch_page );
+    loadAllSeriesOrWatch( is_not_watch_page );
 });
 
 
@@ -173,7 +173,6 @@ function loadSeries( seriesId, startVideoId ){
       }, 0);
     }).error(function() { 
         alert("Error retrieving messages"); 
-        console.log(seriesId);
     });
 }
 
@@ -390,8 +389,6 @@ function getDescription( description ){
     }
     description = description.replace(link, '');
     link = link.substring( prefix_length );
-      console.log(link);
-      console.log(description);
   }
   arr = [];
   arr['description'] = description.replace(/(<([^>]+)>)/ig,"");
