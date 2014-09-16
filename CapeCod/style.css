@@ -1004,6 +1004,175 @@ body.login {
 }
 
 
+.lcms_AdminView .admin-note {
+    display: block!important;
+    background: #efefef;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    text-align: center;
+    padding: 5px;
+    font-style: italic;
+    color: #999;
+    margin: 0 0 30px;
+}
+
+.admin-note span {
+    color: #ccc;
+}
+
+/* Vimeo */
+div#main_1_pnlTitle {
+    display: none;
+    visibility: hidden;
+}
+div#main_1_pnlTitle.container.show {
+    display: block;
+    visibility: visible;
+}
+
+div.video-content {
+    display: block;
+    width: 80%;
+    margin: auto;
+}
+ul.series-list {
+    list-style-type: none;
+    overflow:hidden;
+    display: block;
+    margin: auto;
+    padding-top: 50px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid grey;
+    margin-bottom: 50px;
+}
+li.series {
+    line-height:1.5em;
+    float:left;
+    display:inline;
+    padding: 20px;
+}
+img.series-thumb {
+    padding: 5px;
+    border: 1px solid #5d6264;
+}
+
+#vimeo-info {
+    font-style: italic;   
+    float: right;
+    width: 40%;
+}
+#vimeo-stats a {
+   margin-left: 70px;
+}
+#vimeo-stats-p {
+   margin-left: 0px;
+   padding-left: 0px;
+}
+#video-player-container {
+    padding-left: 10px;
+}
+
+#video-player-title {
+    color: #82af43;
+    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 300;
+    padding: 20px;
+}
+#video-player-description {
+    float: left;
+    padding-left: 50px;
+    margin-bottom: 25px;
+    width: 575px;
+    
+}
+#lesson-other-heading {
+    clear: both;
+    display: block;
+    color: #82af43;
+    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 300;
+    padding: 20px;
+}
+ul.lesson-list {
+    list-style-type: none;
+    overflow:hidden;
+    display: block;
+    margin: auto;
+    clear: both;
+    padding-top: 25px;
+    margin-right: 75px;
+    border-top: 1px solid grey;
+}
+li.lesson {
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid grey;
+}
+div.lesson-div {
+   display: inline-block;
+    width: 100%;
+}
+div.lesson-title {
+     width: 50%;  
+     margin-left: 0px;
+    display: inline-block;
+}
+span.lesson-teaser {
+    font-style: italic;
+    display: block;
+}
+
+
+a.special-button-alternate {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #737865;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+    color: #fff;
+    font-size: 13px;
+    text-decoration: none;
+    -webkit-transition: all ease-in-out .1s;
+    -moz-transition: all ease-in-out .1s;
+    transition: all ease-in-out .1s;
+}
+
+a.lesson-link.special-button {
+   margin-bottom: 5px; 
+}
+a.special-button-alternate:hover {
+    background: #666;
+    color: #fff;
+}
+
+a.lesson-link.special-button-alternate {
+    display: inline-block;
+    float: right;
+} 
+
+#lesson-notes-current {
+    float: none;
+    margin-left: 50px;
+}
+
+/** Staff **/
+.staff-answer {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+.caption {
+    font-size: 13px;   
+    display: block;
+}
+
+.top-margin-10 {
+    margin-top: 10px;   
+}
+
 /* Responsive */
 
 @media screen and (max-width: 920px) { 
@@ -1203,173 +1372,12 @@ body.login {
         width: 48%;
         margin: 0;
     }
-}
 
-.lcms_AdminView .admin-note {
-    display: block!important;
-    background: #efefef;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    text-align: center;
-    padding: 5px;
-    font-style: italic;
-    color: #999;
-    margin: 0 0 30px;
-}
-
-.admin-note span {
-    color: #ccc;
-}
-
-/* Vimeo */
-div#main_1_pnlTitle {
-    display: none;
-    visibility: hidden;
-}
-div#main_1_pnlTitle.container.show {
-    display: block;
-    visibility: visible;
-}
-
-div.video-content {
-    display: block;
-    width: 80%;
-    margin: auto;
-}
-ul.series-list {
-    list-style-type: none;
-    overflow:hidden;
-    display: block;
-    margin: auto;
-    padding-top: 50px;
-    padding-bottom: 25px;
-    border-bottom: 1px solid grey;
-    margin-bottom: 50px;
-}
-li.series {
-    line-height:1.5em;
-    float:left;
-    display:inline;
-    padding: 20px;
-}
-img.series-thumb {
-    padding: 5px;
-    border: 1px solid #5d6264;
-}
-
-#vimeo-info {
-    font-style: italic;   
-    float: right;
-    width: 40%;
-}
-#vimeo-stats a {
-   margin-left: 70px;
-}
-#vimeo-stats-p {
-   margin-left: 0px;
-   padding-left: 0px;
-}
-#video-player-container {
-    padding-left: 10px;
-}
-
-#video-player-title {
-    color: #82af43;
-    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
-    font-weight: 300;
-    padding: 20px;
-}
-#video-player-description {
-    float: left;
-    padding-left: 50px;
-    margin-bottom: 25px;
-    width: 575px;
-    
-}
-#lesson-other-heading {
-    clear: both;
-    display: block;
-    color: #82af43;
-    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
-    font-weight: 300;
-    padding: 20px;
-}
-ul.lesson-list {
-    list-style-type: none;
-    overflow:hidden;
-    display: block;
-    margin: auto;
-    clear: both;
-    padding-top: 25px;
-    margin-right: 75px;
-    border-top: 1px solid grey;
-}
-li.lesson {
-    margin-bottom: 30px;
-    padding-bottom: 25px;
-    border-bottom: 1px solid grey;
-}
-div.lesson-div {
-   display: inline-block;
-    width: 100%;
-}
-div.lesson-title {
-     width: 50%;  
-     margin-left: 0px;
-    display: inline-block;
-}
-span.lesson-teaser {
-    font-style: italic;
-    display: block;
-}
-
-
-a.special-button-alternate {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #737865;
-    font-size: 13px;
-    text-transform: uppercase;
-    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
-    color: #fff;
-    font-size: 13px;
-    text-decoration: none;
-    -webkit-transition: all ease-in-out .1s;
-    -moz-transition: all ease-in-out .1s;
-    transition: all ease-in-out .1s;
-}
-
-a.lesson-link.special-button {
-   margin-bottom: 5px; 
-}
-a.special-button-alternate:hover {
-    background: #666;
-    color: #fff;
-}
-
-a.lesson-link.special-button-alternate {
-    display: inline-block;
-    float: right;
-} 
-
-#lesson-notes-current {
-    float: none;
-    margin-left: 50px;
-}
-
-/** Staff **/
-.staff-answer {
-    margin-left: 10px;
-    margin-bottom: 10px;
-    display: inline-block;
-}
-.caption {
-    font-size: 13px;   
-    display: block;
-}
-
-.top-margin-10 {
-    margin-top: 10px;   
+    #video-player-description {
+        display: none;
+    }
+    a.lesson-link.special-button-alternate {
+        display: inline-block;
+        float: none;
+    }
 }
