@@ -1380,4 +1380,8 @@ a.lesson-link.special-button-alternate {
         display: inline-block;
         float: none;
     }
+
+    div.imageElement.photoGalleryElement div.SlideShowImage div.captionContainer div.sldw_caption {
+        display: none;
+    }
 }
